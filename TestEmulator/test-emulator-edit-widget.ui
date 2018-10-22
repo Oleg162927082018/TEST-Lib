@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TestEmulatorEditWidget</class>
+ <widget class="QWidget" name="TestEmulatorEditWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>654</width>
+    <height>464</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>16777215</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QFormLayout" name="formLayout_2">
+   <item row="0" column="0">
+    <widget class="QLabel" name="binLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Bin:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <layout class="QHBoxLayout" name="binLayout">
+     <item>
+      <widget class="QLineEdit" name="binBox">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>22</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>22</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="binBtn">
+       <property name="minimumSize">
+        <size>
+         <width>27</width>
+         <height>22</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>27</width>
+         <height>22</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="optionsLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Bug percent:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <layout class="QHBoxLayout" name="percentLayout">
+     <item>
+      <widget class="QSpinBox" name="prcBugsBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>22</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>22</height>
+        </size>
+       </property>
+       <property name="maximum">
+        <number>100</number>
+       </property>
+       <property name="value">
+        <number>25</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>417</width>
+         <height>19</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="srcLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Images:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QWidget" name="imagesWidget" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>100</verstretch>
+      </sizepolicy>
+     </property>
+     <layout class="QHBoxLayout" name="imagePathLayout" stretch="0,0">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetMaximumSize</enum>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QListWidget" name="srcList">
+        <property name="selectionMode">
+         <enum>QAbstractItemView::MultiSelection</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="imagePathSubLayout">
+        <property name="sizeConstraint">
+         <enum>QLayout::SetDefaultConstraint</enum>
+        </property>
+        <item>
+         <widget class="QPushButton" name="srcAddBtn">
+          <property name="minimumSize">
+           <size>
+            <width>40</width>
+            <height>28</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>40</width>
+            <height>28</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Add</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="srcDelBtn">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>40</width>
+            <height>28</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>40</width>
+            <height>28</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Del</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

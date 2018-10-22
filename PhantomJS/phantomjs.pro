@@ -20,7 +20,7 @@ SOURCES += phantomjs.cpp \
 
 HEADERS += phantomjs.h\
     phantomjs_global.h \
-    ../../../common/itestcasetemplate.h \
+    ../../TTI/Common/itestcasetemplate.h \
     phantomjs-compare-widget.h \
     phantomjs-edit-widget.h \
     phantomjs-output-comparator.h \
