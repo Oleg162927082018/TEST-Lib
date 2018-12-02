@@ -12,7 +12,7 @@ class TestEmulatorEditWidget : public ITestCaseEditWidget
     Q_OBJECT
 
 public:
-    explicit TestEmulatorEditWidget(QWidget *parent = 0);
+    explicit TestEmulatorEditWidget(QWidget *parent = nullptr);
     ~TestEmulatorEditWidget();
 
 private slots:
@@ -25,9 +25,11 @@ private:
 
     // ITestCaseEditWidget interface
 public:
-    virtual void SetData(QDomDocument *config, QDomDocument *params);
-    virtual void GetData(QDomDocument *config, QDomDocument *params);
-    virtual QMap<QString, QDomDocument *> *GetTestList();
+    virtual void SetData(QString config, QString params);
+    virtual void GetData(QString &config, QString &params);
+    //Return collection of pairs path of test and string which contain data for run test
+    //Example: <"rootFolder/subFolder/subSubFolder/test-001.script","<path src="0">test-001.script</path>"
+    virtual QMap<QString, QString> *GetTestList();
 };
 
 #endif // TESTEMULATOR_EDITWIDGET_H

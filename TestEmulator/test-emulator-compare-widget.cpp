@@ -36,9 +36,19 @@ void TestEmulatorCompareWidget::SetLeftValue(QString leftValueFullFolderPath)
     leftImageViewer->LoadImage(leftValueFullFolderPath + "/img.png");
 }
 
+void TestEmulatorCompareWidget::ClearLeftValue()
+{
+    leftImageViewer->Clear();
+}
+
 void TestEmulatorCompareWidget::SetRightValue(QString rightValueFullFolderPath)
 {
     rightImageViewer->LoadImage(rightValueFullFolderPath + "/img.png");
+}
+
+void TestEmulatorCompareWidget::ClearRightValue()
+{
+    rightImageViewer->Clear();
 }
 
 void TestEmulatorCompareWidget::on_scaleSlider_valueChanged(int value)

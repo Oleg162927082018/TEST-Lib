@@ -6,6 +6,7 @@
 
 #include <QDir>
 #include <QDirIterator>
+#include <QDomDocument>
 
 TestEmulatorTests::TestEmulatorTests()
 {
@@ -30,21 +31,31 @@ const QString TestEmulatorTests::Description()
     return "Test emulator automated tests.";
 }
 
-void TestEmulatorTests::GetRunCommand(QString testCaseFullFileName, QDomDocument extraParams, QDomDocument testParams,
-                                       QString outputFullFolderName, QString &out_cmd, QStringList &out_arg, QString &out_workDir)
+void TestEmulatorTests::GetRunCommand(QString testCaseFullFileName,
+                                      QString extraTestCaseParams, QString testParams, QString outputFullFolderName,
+                                      QString &out_cmd, QStringList &out_arg, QString &out_workDir)
 {
     //test-emulator.exe [IMAGE FILE NAME] [PERCENT OF "BUGS"] [OUTPUT FOLDER]
+    QDomDocument doc1;
+    doc1.setContent("<root>" + testParams + "</root>");
+    QDomNode rootNode = doc1.firstChild();
 
-    QString binFileName = extraParams.firstChildElement("bin").text();
+    QDomElement pathTestParamNode = rootNode.firstChildElement("path");
+    QString testSubFileName = pathTestParamNode.text();
+    QString srcNum = pathTestParamNode.attribute("src");
+
+    QDomDocument doc2;
+    doc2.setContent("<root>" + extraTestCaseParams + "</root>");
+    QDomNode extraTestCaseParamNode = doc2.firstChild();
+
+    QString binFileName = extraTestCaseParamNode.firstChildElement("bin").text();
     QString binFullFileName = QDir(QFileInfo(testCaseFullFileName).absoluteDir()).absoluteFilePath(binFileName);
+    QString bugsProcent = extraTestCaseParamNode.firstChildElement("prc-bugs").text();
 
-    QString bugsProcent = extraParams.firstChildElement("prc-bugs").text();
+    QDomElement srcList = extraTestCaseParamNode.firstChildElement("sources");
+    QDomElement srcPath = srcList.firstChildElement("source");
 
     QString imageFullFileName;
-    QString testSubFileName = testParams.firstChildElement("path").text();
-    QString srcNum = testParams.firstChildElement("path").attribute("src");
-    QDomElement srcList = extraParams.firstChildElement("sources");
-    QDomElement srcPath = srcList.firstChildElement("source");
     while(!srcPath.isNull())
     {
         if(srcPath.attribute("id") == srcNum)

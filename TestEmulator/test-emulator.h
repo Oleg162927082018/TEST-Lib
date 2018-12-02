@@ -16,8 +16,9 @@ public:
     virtual const QString Name();
     virtual const QString Description();
 
-    virtual void GetRunCommand(QString testCaseFullFileName, QDomDocument extraParams, QDomDocument testParams,
-                               QString outputFullFolderName, QString &out_cmd, QStringList &out_arg, QString &out_workDir);
+    virtual void GetRunCommand(QString testCaseFullFileName,
+                               QString extraTestCaseParams, QString testParams, QString outputFullFolderName,
+                               QString &out_cmd, QStringList &out_arg, QString &out_workDir);
 
     virtual ITestOutputComparator *GetComparator();
     virtual ITestCaseEditWidget *GetTestCaseEditWidget(QWidget *parent);

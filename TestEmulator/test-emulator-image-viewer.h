@@ -11,13 +11,15 @@ class TestEmulatorImageViewer : public QScrollArea
     Q_OBJECT
 
 public:
-    explicit TestEmulatorImageViewer(QWidget *parent = 0);
+    explicit TestEmulatorImageViewer(QWidget *parent = nullptr);
     ~TestEmulatorImageViewer();
 
     void LoadImage(const QString &fullFileName);
     void SetScaleFactor(int percent);
+    void Clear();
 
 private:
+    QString imageFullFileName;
     QImage image;
     int scaleFactor;
 

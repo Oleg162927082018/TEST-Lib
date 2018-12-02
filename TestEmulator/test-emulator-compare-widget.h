@@ -14,7 +14,7 @@ class TestEmulatorCompareWidget : public IResultCompareWidget
     Q_OBJECT
 
 public:
-    explicit TestEmulatorCompareWidget(QWidget *parent = 0);
+    explicit TestEmulatorCompareWidget(QWidget *parent = nullptr);
     ~TestEmulatorCompareWidget();
 
 private:
@@ -26,7 +26,9 @@ private:
     // IResultCompareWidget interface
 public:
     virtual void SetLeftValue(QString leftValueFullFolderPath);
+    virtual void ClearLeftValue();
     virtual void SetRightValue(QString rightValueFullFolderPath);
+    virtual void ClearRightValue();
 private slots:
     void on_scaleSlider_valueChanged(int value);
     void on_scalePlusBtn_clicked();

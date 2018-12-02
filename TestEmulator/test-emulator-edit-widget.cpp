@@ -3,6 +3,8 @@
 
 #include <QFileDialog>
 #include <QDirIterator>
+#include <QStringBuilder>
+#include <QDomDocument>
 
 TestEmulatorEditWidget::TestEmulatorEditWidget(QWidget *parent) :
     ITestCaseEditWidget(parent),
@@ -16,10 +18,14 @@ TestEmulatorEditWidget::~TestEmulatorEditWidget()
     delete ui;
 }
 
-void TestEmulatorEditWidget::SetData(QDomDocument *config, QDomDocument *params)
+void TestEmulatorEditWidget::SetData(QString config, QString params)
 {
+    QDomDocument doc;
+    doc.setContent("<root>" + params + "</root>");
+    QDomNode rootNode = doc.firstChild();
+
     //Bin path
-    QDomElement binElement = params->firstChildElement("bin");
+    QDomElement binElement = rootNode.firstChildElement("bin");
     if(binElement.isNull())
     {
         ui->binBox->setText("");
@@ -30,7 +36,7 @@ void TestEmulatorEditWidget::SetData(QDomDocument *config, QDomDocument *params)
     }
 
     //Percent of bugs
-    QDomElement prcBugsElement = params->firstChildElement("prc-bugs");
+    QDomElement prcBugsElement = rootNode.firstChildElement("prc-bugs");
     if(prcBugsElement.isNull())
     {
         ui->prcBugsBox->setValue(0);
@@ -39,70 +45,34 @@ void TestEmulatorEditWidget::SetData(QDomDocument *config, QDomDocument *params)
     {
         ui->prcBugsBox->setValue(prcBugsElement.text().toInt());
     }
+
+    //Sources
+    QDomNode sourceNode = rootNode.firstChildElement("sources").firstChild();
+    while(!sourceNode.isNull())
+    {
+        ui->srcList->addItem(sourceNode.toElement().text());
+        sourceNode = sourceNode.nextSibling();
+    }
 }
 
-void TestEmulatorEditWidget::GetData(QDomDocument *config, QDomDocument *params)
+void TestEmulatorEditWidget::GetData(QString &config, QString &params)
 {
-    //Executable module path
-    QDomElement binElement = params->firstChildElement("bin");
-    if(binElement.isNull())
-    {
-        binElement = params->createElement("bin");
-        params->appendChild(binElement);
+    params = "<bin>" + ui->binBox->text() + "</bin>\n" +
+             "<prc-bugs>" + QString::number(ui->prcBugsBox->value()) + "</prc-bugs>\n";
 
-        QDomText binValue = params->createTextNode(ui->binBox->text());
-        binElement.appendChild(binValue);
-    }
-    else
-    {
-        binElement.firstChild().setNodeValue(ui->binBox->text());
-    }
-
-    //Percent of bugs
-    QDomElement prcBugsElement = params->firstChildElement("prc-bugs");
-    if(prcBugsElement.isNull())
-    {
-        prcBugsElement = params->createElement("prc-bugs");
-        params->appendChild(prcBugsElement);
-
-        QDomText prcBugsValue = params->createTextNode(QString::number(ui->prcBugsBox->value()));
-        prcBugsElement.appendChild(prcBugsValue);
-    }
-    else
-    {
-        prcBugsElement.firstChild().setNodeValue(QString::number(ui->prcBugsBox->value()));
-    }
-
-    //Source
-    QDomElement newSourcesElement = params->createElement("sources");
-
+    params += "<sources>\n";
     for(int i = 0; i < ui->srcList->count(); i++)
-    {
-        QDomElement sourceElement = params->createElement("source");
-        sourceElement.setAttribute("id", i);
-        newSourcesElement.appendChild(sourceElement);
-
-        QDomText sourceValue = params->createTextNode(ui->srcList->item(i)->text());
-        sourceElement.appendChild(sourceValue);
-    }
-
-    QDomElement oldSourcesElement = params->firstChildElement("sources");
-    if(oldSourcesElement.isNull())
-    {
-        params->appendChild(newSourcesElement);
-    }
-    else
-    {
-        params->replaceChild(newSourcesElement, oldSourcesElement);
-    }
+        { params += "  <source id=\"" + QString::number(i) + "\">" + ui->srcList->item(i)->text() + "</source>\n"; }
+    params += "</sources>";
 }
 
-QMap<QString, QDomDocument *> *TestEmulatorEditWidget::GetTestList()
+QMap<QString, QString> *TestEmulatorEditWidget::GetTestList()
 {
-    QMap<QString, QDomDocument *> *testList = new QMap<QString, QDomDocument *>();
+    QMap<QString, QString> *testList = new QMap<QString, QString>();
 
     const QStringList pattern = QStringList() << "*.png";
 
+    //For each source
     for(int i = 0; i < ui->srcList->count(); i++)
     {
         QString srcId = QString::number(i);
@@ -113,25 +83,17 @@ QMap<QString, QDomDocument *> *TestEmulatorEditWidget::GetTestList()
         QDirIterator it(srcFolder.absolutePath(), QDir::Dirs | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
         while(it.hasNext()) { allSearchFolders.append(it.next()); }
 
+        //For each sub folders and root (source) folder
         for(int j = 0; j < allSearchFolders.count(); j++)
         {
             QFileInfoList fileInfoList = QDir(allSearchFolders.at(j)).entryInfoList(pattern, QDir::Files);
 
+            //For each files which was found
             for(int k = 0; k < fileInfoList.count(); k++)
             {
                 QString relativeFileName = srcFolder.relativeFilePath(fileInfoList.at(k).filePath());
-
-                QDomDocument *doc = new QDomDocument();
-
-                QDomElement testNode = doc->createElement("path");
-                doc->appendChild(testNode);
-
-                QDomText pathValue = doc->createTextNode(relativeFileName);
-                testNode.appendChild(pathValue);
-
-                testNode.setAttribute("src", srcId);
-
-                testList->insert(srcFolder.dirName() + "/" + relativeFileName, doc);
+                testList->insert(srcFolder.dirName() + "/" + relativeFileName,
+                                 "<path src=\"" + srcId + "\">" + relativeFileName + "</path>");
             }
         }
     }
@@ -161,7 +123,7 @@ void TestEmulatorEditWidget::on_binBtn_clicked()
     QDir appFolder(qApp->applicationDirPath());
 
     QString binFileName = QFileDialog::getOpenFileName(this, "Executable module",
-                               appFolder.filePath("phantomjs.exe"), "Executable module (*.exe)");
+                               appFolder.filePath("test-emulator.exe"), "Executable module (*.exe)");
 
     if(!binFileName.isEmpty()&& !binFileName.isNull())
     {
