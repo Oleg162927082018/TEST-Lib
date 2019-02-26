@@ -8,42 +8,52 @@ bool TestEmulatorOutputComparator::GetTestStatus(int status_index, QString &out_
         case 0:
            out_label = "Not started";
            out_color = QColor(128,128,128);
+           out_description = "OS could not start test";
            return true;
         case 1: //Exit code != 0
            out_label = "EXIT CODE";
            out_color = QColor(128,0,0);
+           out_description = "Test return not success exit code";
            return true;
         case 2: //The best
            out_label = "Benchmark created";
            out_color = QColor(112,146,190);
+           out_description = "The best benchmark created";
            return true;
         case 3: //Perfect
            out_label = "Benchmark created";
            out_color = QColor(255,255,128);
+           out_description = "Perfect benchmark created";
            return true;
         case 4: //The best
            out_label = "Benchmark updated";
            out_color = QColor(64,128,128);
+           out_description = "The best benchmark updated";
            return true;
         case 5: //Perfect
            out_label = "Benchmark updated";
            out_color = QColor(255,255,0);
+           out_description = "Perfect benchmark updated";
            return true;
         case 6:
            out_label = "PASS";
            out_color = QColor(0,255,0);
+           out_description = "Test finished successfully";
            return true;
         case 7: //First fail
            out_label = "FAIL";
            out_color = QColor(255,0,0);
+           out_description = "Test finished not successfully";
            return true;
         case 8: //Second fail
            out_label = "FAIL";
            out_color = QColor(255,128,128);
+           out_description = "Test finished not successfully again";
            return true;
         case 9: //Timeout expired
            out_label = "Timeout expired";
            out_color = QColor(0,0,255);
+           out_description = "Test killed because timeout expired";
            return true;
         default:
             return false;
