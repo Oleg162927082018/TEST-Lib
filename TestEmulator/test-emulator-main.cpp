@@ -62,14 +62,13 @@ void TestEmulatorTests::GetRunCommand(QString testCaseFullFileName,
         {
             QDir srcDir(QFileInfo(testCaseFullFileName).absoluteDir().filePath(srcPath.text()));
             imageFullFileName = srcDir.absoluteFilePath(testSubFileName);
+			break;
         }
-
         srcPath = srcPath.nextSiblingElement("source");
     }
 
     out_workDir = QFileInfo(binFullFileName).absolutePath();
     out_cmd = "\"" + binFullFileName + "\" \"" + imageFullFileName + "\" " + bugsProcent + " \"" + outputFullFolderName + "\"";
-    return;
 }
 
 ITestOutputComparator *TestEmulatorTests::GetComparator()

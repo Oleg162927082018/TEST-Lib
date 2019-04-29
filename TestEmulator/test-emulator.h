@@ -2,6 +2,7 @@
 #define TESTEMULATOR_H
 
 #include "../../TTI/Common/itestcasetemplate.h"
+
 #include "test-emulator_global.h"
 
 class TESTEMULATOR_SHARED_EXPORT TestEmulatorTests: public ITestCaseAdapter
