@@ -1,7 +1,7 @@
-VERSION = 1.3.0.0
+VERSION = 0.1.0.0
 QMAKE_TARGET_PRODUCT = Test emulator adapter
 QMAKE_TARGET_DESCRIPTION = Adapter for the test emulator
-QMAKE_TARGET_COPYRIGHT = Copyright\xA9 Oleg Kopyev 2016-2018
+QMAKE_TARGET_COPYRIGHT = Copyright\xA9 Oleg Kopyev 2018-2019
 
 QT       -= gui
 QT       += widgets xml
